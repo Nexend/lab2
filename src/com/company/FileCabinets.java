@@ -1,7 +1,7 @@
 package com.company;
-import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -25,28 +25,30 @@ public class FileCabinets {
 
     public void infoAllBooks(){
         for (FileCabinet fileCabinet : this.list) {
-            System.out.println("Название книги: " + fileCabinet.title + "\nАвтор: " + fileCabinet.author + "\nГод издания: " + fileCabinet.publishingYear + "\nИздательство: " + fileCabinet.publishingHouse + "\nЦена: " + fileCabinet.price + "\nСостояние: " + fileCabinet.status + "\nДата выдачи читателю на руки: " + fileCabinet.dateIssued + '\n');
+            System.out.println("Название книги: " + fileCabinet.title + "\nАвтор: " + fileCabinet.author + "\nЖанр: " + fileCabinet.typeBook  + "\nГод издания: " + fileCabinet.publishingYear + "\nИздательство: " + fileCabinet.publishingHouse + "\nЦена: " + fileCabinet.price + "\nСостояние: " + fileCabinet.status + "\nДата выдачи читателю на руки: " + fileCabinet.dateIssued + '\n');
         }
         backToMenu();
     }
     public void changeStateOfBooks() {
-        System.out.println("Введите книгу, которой хотите поменять состояние: ");
-        title = scanner.next();
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+
+        System.out.println("Изменить состояние книг изданных больше (введите кол-во лет): ");
+        int quantity = scanner.nextInt();
         scanner.nextLine();
-        for ( FileCabinet fileCabinet : this.list) {
-            if (fileCabinet.publishingYear <= 1989) {
-                System.out.println("Введите новое состояние книги: ");
-                fileCabinet.status = scanner.nextLine();
-                System.out.println("Состояние изменено");
+        for ( int i = 0; i < this.list.length; i++ ) {
+            if ( currentYear - this.list[i].publishingYear > quantity) {
+                System.out.println( this.list[i].title );
+                System.out.println("Введите состояние на которое хотите поменять: ");
+                this.list[i].status = scanner.next();
             }
-            break;
         }
 
         backToMenu();
     }
     public void booksCostMoreThanOneHundred() {
         for ( FileCabinet fileCabinet : this.list ) {
-            if (fileCabinet.price >= 100) {
+            if ( fileCabinet.price >= 100 ) {
                 System.out.println("Название книги: " + fileCabinet.title + "\nЦена: " + fileCabinet.price);
             }
         }
@@ -57,20 +59,24 @@ public class FileCabinets {
         System.out.println("Введите имя автора: ");
         author = scanner.next();
         for ( int i = 0; i < this.list.length; i++ ) {
-            if(author.equals(this.list[i].author)) {
+            if ( author.equals( this.list[i].author ) ) {
                 System.out.println("Название книги: " + this.list[i].title);
             }
         }
 
         backToMenu();
     }
-int dateIssued;
     public void infoBooksOnHands() {
-        LocalDate today = LocalDate.now( ZoneId.of( "America/Montreal" ) );
-        LocalDate threeMonthsAgo = today.minusMonths( 3 );
+        Date date = new Date();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year  = localDate.getYear();
+        int month = localDate.getMonthValue();
+        int day   = localDate.getDayOfMonth();
         for ( FileCabinet fileCabinet : this.list ) {
-                System.out.println("Название книги: " + fileCabinet.title);
+            System.out.println(fileCabinet.dateIssued);
+            System.out.println("Название книги: " + fileCabinet.title + "\nАвтор: " + fileCabinet.author + "\nГод издания: " + fileCabinet.publishingYear + "\nИздательство: " + fileCabinet.publishingHouse + "\nЦена: " + fileCabinet.price + "\nСостояние: " + fileCabinet.status + "\nДата выдачи читателю на руки: " + fileCabinet.dateIssued + '\n');
         }
+
         backToMenu();
     }
 

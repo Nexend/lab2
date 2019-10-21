@@ -11,9 +11,20 @@ public class FileCabinet {
     String status;
     String dateIssued;
 
-    public FileCabinet(){}
+    public enum Book{
+        Классика,
+        Фантастика,
+        Фэнтези,
+        Религия
+    }
 
-    public FileCabinet(final String title,final String author,final int publishingYear,final String publishingHouse, final double price,final String status,final String dateIssued){
+    Book typeBook;
+
+    public FileCabinet(){
+
+    }
+
+    public FileCabinet(final Book book,final String title,final String author,final int publishingYear,final String publishingHouse, final double price,final String status,final String dateIssued){
         this.title = title;
         this.author = author;
         this.publishingYear = publishingYear;
@@ -21,6 +32,16 @@ public class FileCabinet {
         this.price = price;
         this.status = status;
         this.dateIssued = dateIssued;
+        typeBook = book;
     }
-
+    public FileCabinet( final Book book,final String title){
+        this.title = title;
+        this.author = null;
+        this.publishingYear = 0;
+        this.publishingHouse = null;
+        this.price = 0;
+        this.status = null;
+        this.dateIssued = null;
+        typeBook = book;
+    }
 }
